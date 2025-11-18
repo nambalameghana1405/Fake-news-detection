@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fake News Detection</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='project.css') }}">
+</head>
+<body>
+<div class="container">
+<h1>📰 Fake News Classifier</h1>
+<p>Enter a news article's text below to predict if it is FAKE or TRUE.</p>
+
+    <form method="POST">
+        <textarea name="article_text" rows="10" placeholder="Paste the news article text here..."></textarea>
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction_result %}
+        {% if prediction_result.status == 'success' %}
+            <div class="result-box {% if prediction_result.label == 0 %}fake{% else %}true{% endif %}">
+                <h2>Prediction: <strong>{{ prediction_result.result }}</strong></h2>
+                <p>The model is confident this text is <strong>{{ prediction_result.result }}</strong>.</p>
+            </div>
+        {% elif prediction_result.status == 'error' %}
+             <div class="result-box error">
+                <h2>Error:</h2>
+                <p>{{ prediction_result.message }}</p>
+            </div>
+        {% endif %}
+    {% endif %}
+
+</div>
+
+</body>
+</html>
